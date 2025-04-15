@@ -1,0 +1,27 @@
+[project]
+name = "travel_assistent"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "victorinect",email = "victor.barra@inect.be"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "litellm (>=1.66.1,<2.0.0)",
+    "fastapi (>=0.115.12,<0.116.0)",
+    "uvicorn (>=0.34.1,<0.35.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "pydantic (>=2.11.3,<3.0.0)",
+    "openai (>=1.74.0,<2.0.0)",
+    "streamlit (>=1.44.1,<2.0.0)",
+    "google-adk (>=0.1.0,<0.2.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
