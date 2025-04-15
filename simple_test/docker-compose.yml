@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  math-agent:
+    build:
+      context: ./math_agent
+    container_name: math-agent
+    ports:
+      - "9001:8001"
+    environment:
+      - HOST_URL=http://math-agent:8001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/.well-known/agent.json"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  translation-agent:
+    build:
+      context: ./translation_agent
+    container_name: translation-agent
+    ports:
+      - "9002:8002"
+    environment:
+      - HOST_URL=http://translation-agent:8002
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/.well-known/agent.json"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  orchestrator:
+    build:
+      context: ./orchestrator
+    container_name: orchestrator
+    ports:
+      - "9000:8000"
+    environment:
+      - MATH_AGENT_URL=http://math-agent:8001
+      - TRANSLATOR_AGENT_URL=http://translation-agent:8002
+      - HOST_URL=http://orchestrator:8000
+    depends_on:
+      math-agent:
+        condition: service_healthy
+      translation-agent:
+        condition: service_healthy 
